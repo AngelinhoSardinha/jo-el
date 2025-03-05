@@ -4,19 +4,29 @@ import java.util.*
 
 fun main() {
     val scan = Scanner(System.`in`)
-    val victories = mutableMapOf<String, Int>() // Diccionari per comptar les victòries
-    var winner: String? = null // Variable per guardar el guanyador (si n'hi ha)
+    val victorias = mutableMapOf<String, Int>() // Diccionario para contar las victorias
+    var winner: String? = null // Variable para guardar al ganador (si lo hay)
 
-    val inputs = generateSequence { scan.nextLine().takeIf { it != "xxx" } }.toList() // Llegeix totes les línies fins a "xxx"
+    val inputs = mutableListOf<String>()
+    var input: String?
 
-    for (nom in inputs) {
-        victories[nom] = victories.getOrDefault(nom, 0) + 1 // Incrementem victòries
+    // Leemos todas las líneas hasta que se ingrese "xxx" usando un do-while
+    do {
+        input = scan.nextLine()
+        if (input != "xxx") {
+            inputs.add(input)
+        }
+    } while (input != "xxx")
 
-        if (victories[nom] == 5) {
-            winner = nom
-            break // Sortim del bucle tan bon punt algú guanya 5 vegades
+    // Verificamos el ganador sin usar 'break'
+    for (nombre in inputs) {
+        victorias[nombre] = victorias.getOrDefault(nombre, 0) + 1 // Incrementamos victorias
+
+        // Si alguien llega a 5 victorias, asignamos el ganador
+        if (victorias[nombre] == 5 && winner == null) {
+            winner = nombre
         }
     }
 
-    println(winner ?: "NO") // Mostrem el guanyador o "NO" si ningú ha arribat a 5
+    println(winner ?: "NO") // Mostramos el ganador o "NO" si nadie ha llegado a 5
 }
