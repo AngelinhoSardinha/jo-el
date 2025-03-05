@@ -4,28 +4,21 @@ import java.util.*
 
 fun main() {
     val scan = Scanner(System.`in`)
-    val victorias = mutableMapOf<String, Int>() // Diccionario para contar las victorias
-    var winner: String? = null // Variable para guardar al ganador (si lo hay)
+    val numCasos = scan.nextInt() // Número de casos de prueba
+    scan.nextLine() // Consumir salto de línea
 
-    val inputs = mutableListOf<String>()
-    var input: String?
+    repeat(numCasos) {
+        val n = scan.nextInt() // Número total de líneas del caso
+        scan.nextLine() // Consumir salto de línea
 
-    // Leemos todas las líneas hasta que se ingrese "xxx"
-    while (true) {
-        input = scan.nextLine()
-        if (input == "xxx") break
-        inputs.add(input)
-    }
+        val ganadores = mutableMapOf<String, Int>() // Diccionario alias -> número de victorias
 
-    // Verificamos el ganador sin usar 'break'
-    for (nombre in inputs) {
-        victorias[nombre] = victorias.getOrDefault(nombre, 0) + 1 // Incrementamos victorias
-
-        // Si alguien llega a 5 victorias, asignamos el ganador y salimos del ciclo.
-        if (victorias[nombre] == 5 && winner == null) {
-            winner = nombre
+        repeat(n - 1) {
+            val (_, alias) = scan.nextLine().split("-") // Ignoramos el año y guardamos el alias
+            ganadores[alias] = ganadores.getOrDefault(alias, 0) + 1 // Contamos victorias
         }
-    }
 
-    println(winner ?: "NO") // Mostramos el ganador o "NO" si nadie ha llegado a 5
+        val aliasConsulta = scan.nextLine() // Alias a consultar
+        println(ganadores[aliasConsulta] ?: 0) // Devuelve el número de victorias o "0"
+    }
 }
